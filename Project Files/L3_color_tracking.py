@@ -37,15 +37,15 @@ size_h = 160	# Resized image height. This is the image height in pixels.
 fov = 1         # Camera field of view in rad (estimate)
 
 #    Color Range, described in HSV
-v1_min = 0      # Minimum H value
-v2_min = 45    # Minimum S value
-v3_min = 195     # Minimum V value
+v1_min = 130     # Minimum H value
+v2_min = 105    # Minimum S value
+v3_min = 100     # Minimum V value
 
-v1_max = 15     # Maximum H value
-v2_max = 235    # Maximum S value
+v1_max = 255     # Maximum H value
+v2_max = 255    # Maximum S value
 v3_max = 255    # Maximum V value
 
-target_width = 100      # Target pixel width of tracked object
+target_width = 35      # Target pixel width of tracked object
 angle_margin = 0.2      # Radians object can be from image center to be considered "centered"
 width_margin = 10       # Minimum width error to drive forward/back
 

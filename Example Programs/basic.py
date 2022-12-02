@@ -16,7 +16,7 @@ def turning(angle):
     wheel_measured = kin.getPdCurrent() 
     wheel_speed = ik.getPdTargets(np.array([0, -1.1*angle]))
     sc.driveClosedLoop(wheel_speed, wheel_measured, 0) 
-
+    
     return 0
     
 def straight(xdot):

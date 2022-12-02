@@ -9,6 +9,10 @@ import L2_kinematics as kin
 import netifaces as ni
 from time import sleep
 from math import radians, pi
+from gpiozero import Servo
+from time import sleep
+
+claw = Servo(24)
 
 # Gets IP to grab MJPG stream
 def getIp():
@@ -37,15 +41,15 @@ size_h = 160	# Resized image height. This is the image height in pixels.
 fov = 1         # Camera field of view in rad (estimate)
 
 #    Color Range, described in HSV
-v1_min = 145    # Minimum H value
-v2_min = 115    # Minimum S value
-v3_min = 90     # Minimum V value
+v1_min = 130     # Minimum H value
+v2_min = 105    # Minimum S value
+v3_min = 100     # Minimum V value
 
 v1_max = 255     # Maximum H value
 v2_max = 255    # Maximum S value
 v3_max = 255    # Maximum V value
 
-target_width = 100      # Target pixel width of tracked object
+target_width = 29      # Target pixel width of tracked object
 angle_margin = 0.2      # Radians object can be from image center to be considered "centered"
 width_margin = 10       # Minimum width error to drive forward/back
 
@@ -64,7 +68,8 @@ def main():
 
     try:
         while True:
-            sleep(.05)                                          
+            sleep(.05)   
+            claw.max()
 
             ret, image = camera.read()  # Get image from camera
 
@@ -102,6 +107,10 @@ def main():
                     if abs(e_width) < width_margin:
                         sc.driveOpenLoop(np.array([0.,0.]))             # Stop when centered and aligned
                         print("Aligned! ",w)
+                        claw.min()
+                        sleep(1)
+                        claw.max()
+                        sleep(1)
                         continue
 
                     fwd_effort = e_width/target_width                   
