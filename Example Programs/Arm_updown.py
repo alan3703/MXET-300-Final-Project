@@ -10,7 +10,8 @@ from gpiozero import PWMOutputDevice as pwm # for driving motors, LEDs, etc
 import time                                 # for keeping time
 import numpy as np                          # for handling arrays
 
-frq = 20                                   # motor driving frequency
+frq = 20
+# motor driving frequency
 # Broadcom (BCM) pin numbering for RasPi is as follows: PHYSICAL:       NAME:
 
 ARM_chA = pwm(9, frequency=frq,initial_value=0)     # PIN 31        GPIO6

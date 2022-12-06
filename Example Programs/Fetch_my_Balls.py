@@ -20,6 +20,12 @@ claw = Servo(24)
 
 def claw_close():
     claw.min()
+    sleep(1)
+    AU.arm_up()
+    claw.max()
+    sleep(1)
+    AU.arm_down()
+    sleep(1)
 
                       
 # Gets IP to grab MJPG stream
@@ -124,9 +130,9 @@ def Search_And_Rescue():
                         claw.max()
                         sleep(1)
                         AU.arm_down()
-                        #claw.min()
-                        #sleep(1)
-                        #AU.arm_up()
+                        claw.min()
+                        sleep(1)
+                        AU.arm_up()
                         sleep(1)
                         break
 
