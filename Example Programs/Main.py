@@ -6,6 +6,10 @@ import L1_log
 import L1_lidar
 import L2_vector
 
+import Arm_updown as AU
+
+import Grab_my_balls as Balls
+
 import L2_speed_control as sc
 import L2_inverse_kinematics as ik
 import L2_kinematics as kin
@@ -13,12 +17,22 @@ import netifaces as ni
 from time import sleep
 from math import radians, pi
 
+
 print("Ready")
 
+Balls.claw_close
+#AU.up()
+
+#Balls.getIp()
 
 xdot = 10
 
 while True:
+    
+    
+    Balls.BF()
+    ####Balls.Search_And_Rescue()
+    
     distanceValues = L2_vector.getNearest()
     distanceMeters = distanceValues[0]
     distanceAngle = distanceValues[1]
@@ -26,15 +40,15 @@ while True:
     print(distanceMeters)
     print(distanceAngle)
     
-    if distanceMeters < .1:
+    if distanceMeters < .4:
     
-        if ((distanceAngle < 0) and (distanceAngle > -100)):
+        if ((distanceAngle < 0) and (distanceAngle > -80)):
             # Move Left
             print("Move Left")
-            motions = [
-                [0.1, 1.5, 1.5], # (turning 90º to the left)        
-                [0.2, 0.0, 1.0], # (Go forward)         
-                [0.1, -1.5, 1.5] # (turning 90º to the right)
+            motions = [[0, 1.57, .2]
+                #[0, 1.57, 1], # (turning 90º to the left)        
+                #[0.1, 0.0, 1.0], # (Go forward)         
+                #[0, -1.57, 1] # (turning 90º to the right)
             ]
             
             for  count, motion in enumerate(motions):
@@ -43,13 +57,13 @@ while True:
                 sc.driveOpenLoop(wheel_speeds)                              # take the calculated wheel speeds and use them to run the motors
                 sleep(motion[2])            
             
-        elif ((distanceAngle > 0) and (distanceAngle < 100)):
+        elif ((distanceAngle > 0) and (distanceAngle < 80)):
             # Move Right
             print("Move Right")
-            motions = [
-                [0.1, -1.5, 1.5], # (turning 90º to the right)        
-                [0.2, 0.0, 1.0], # (Go forward)         
-                [0.1, 1.5, 1.5] # (turning 90º to the left)
+            motions = [[0, -1.57, .2]
+                #[0, -1.57, 1], # (turning 90º to the right)        
+                #[0.1, 0.0, 1.0], # (Go forward)         
+                #[0.1, 1.57, 1] # (turning 90º to the left)
             ]
             
             for  count, motion in enumerate(motions):

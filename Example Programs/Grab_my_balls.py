@@ -7,6 +7,9 @@ import L2_speed_control as sc
 import L2_inverse_kinematics as ik
 import L2_kinematics as kin
 import netifaces as ni
+
+import Arm_updown as AU
+
 from time import sleep
 from math import radians, pi
 from gpiozero import Servo
@@ -14,6 +17,10 @@ from time import sleep
 
 claw = Servo(24)
 
+def claw_close():
+    claw.min()
+
+                      
 # Gets IP to grab MJPG stream
 def getIp():
     for interface in ni.interfaces()[1:]:   #For interfaces eth0 and wlan0
@@ -41,15 +48,16 @@ size_h = 160	# Resized image height. This is the image height in pixels.
 fov = 1         # Camera field of view in rad (estimate)
 
 #    Color Range, described in HSV
+
 v1_min = 130     # Minimum H value
-v2_min = 105    # Minimum S value
-v3_min = 100     # Minimum V value
+v2_min = 65    # Minimum S value
+v3_min = 70     # Minimum V value
 
 v1_max = 255     # Maximum H value
 v2_max = 255    # Maximum S value
 v3_max = 255    # Maximum V value
 
-target_width = 29      # Target pixel width of tracked object
+target_width = 31      # Target pixel width of tracked object
 angle_margin = 0.2      # Radians object can be from image center to be considered "centered"
 width_margin = 10       # Minimum width error to drive forward/back
 
@@ -69,14 +77,13 @@ def main():
     try:
         while True:
             sleep(.05)   
-            claw.max()
 
             ret, image = camera.read()  # Get image from camera
 
             # Make sure image was grabbed
             if not ret:
                 print("Failed to retrieve image!")
-                break
+                
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)              # Convert image to HSV
 
@@ -95,7 +102,7 @@ def main():
                 c = max(cnts, key=cv2.contourArea)                      # return the largest target area
                 x,y,w,h = cv2.boundingRect(c)                           # Get bounding rectangle (x,y,w,h) of the largest contour
                 center = (int(x+0.5*w), int(y+0.5*h))                   # defines center of rectangle around the largest target area
-                angle = round(((center[0]/width)-0.5)*fov, 3)           # angle of vector towards target center from camera, where 0 deg is centered
+                angle = (round(((center[0]/width)-0.5)*fov, 3) )        # angle of vector towards target center from camera, where 0 deg is centered
 
                 wheel_measured = kin.getPdCurrent()                     # Wheel speed measurements
 
@@ -109,7 +116,10 @@ def main():
                         print("Aligned! ",w)
                         claw.min()
                         sleep(1)
+                        AU.arm_up()
                         claw.max()
+                        sleep(1)
+                        AU.arm_down()
                         sleep(1)
                         continue
 
@@ -128,6 +138,7 @@ def main():
             else:
                 print("No targets")
                 sc.driveOpenLoop(np.array([0.,0.]))         # stop if no targets detected
+                
 
                 
     except KeyboardInterrupt: # condition added to catch a "Ctrl-C" event and exit cleanly
