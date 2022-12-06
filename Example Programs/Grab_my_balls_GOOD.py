@@ -57,11 +57,11 @@ v1_max = 255     # Maximum H value
 v2_max = 255    # Maximum S value
 v3_max = 255    # Maximum V value
 
-target_width = 31.5      # Target pixel width of tracked object
+target_width = 31      # Target pixel width of tracked object
 angle_margin = 0.2      # Radians object can be from image center to be considered "centered"
 width_margin = 10       # Minimum width error to drive forward/back
 
-def Search_And_Rescue():
+def main():
     # Try opening camera with default method
     try:
         camera = cv2.VideoCapture(0)    
@@ -83,7 +83,6 @@ def Search_And_Rescue():
             # Make sure image was grabbed
             if not ret:
                 print("Failed to retrieve image!")
-                break
                 
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)              # Convert image to HSV
@@ -122,11 +121,11 @@ def Search_And_Rescue():
                         sleep(1)
                         AU.arm_down()
                         sleep(1)
-                        break
+                        continue
 
                     fwd_effort = e_width/target_width                   
                     
-                    wheel_speed = ik.getPdTargets(np.array([0.6*fwd_effort, -0.5*angle]))   # Find wheel speeds for approach and heading correction
+                    wheel_speed = ik.getPdTargets(np.array([0.8*fwd_effort, -0.5*angle]))   # Find wheel speeds for approach and heading correction
                     sc.driveClosedLoop(wheel_speed, wheel_measured, 0)  # Drive closed loop
                     print("Angle: ", angle, " | Target L/R: ", *wheel_speed, " | Measured L\R: ", *wheel_measured)
                     continue
@@ -139,7 +138,6 @@ def Search_And_Rescue():
             else:
                 print("No targets")
                 sc.driveOpenLoop(np.array([0.,0.]))         # stop if no targets detected
-                break
                 
 
                 
@@ -148,6 +146,6 @@ def Search_And_Rescue():
 
     finally:
     	print("Exiting Color Tracking.")
-    return 0
+
 if __name__ == '__main__':
     main()

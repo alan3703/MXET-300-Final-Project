@@ -21,17 +21,14 @@ from math import radians, pi
 print("Ready")
 
 Balls.claw_close
-#AU.up()
-
-#Balls.getIp()
+Balls.getIp()
 
 xdot = 10
 
 while True:
     
     
-    Balls.BF()
-    ####Balls.Search_And_Rescue()
+    Balls.Search_And_Rescue()
     
     distanceValues = L2_vector.getNearest()
     distanceMeters = distanceValues[0]
@@ -45,7 +42,7 @@ while True:
         if ((distanceAngle < 0) and (distanceAngle > -80)):
             # Move Left
             print("Move Left")
-            motions = [[0, 1.57, .2]
+            motions = [[0, 1, .2]
                 #[0, 1.57, 1], # (turning 90º to the left)        
                 #[0.1, 0.0, 1.0], # (Go forward)         
                 #[0, -1.57, 1] # (turning 90º to the right)
@@ -60,7 +57,7 @@ while True:
         elif ((distanceAngle > 0) and (distanceAngle < 80)):
             # Move Right
             print("Move Right")
-            motions = [[0, -1.57, .2]
+            motions = [[0, -1, .2]
                 #[0, -1.57, 1], # (turning 90º to the right)        
                 #[0.1, 0.0, 1.0], # (Go forward)         
                 #[0.1, 1.57, 1] # (turning 90º to the left)
