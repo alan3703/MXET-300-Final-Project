@@ -124,9 +124,10 @@ def Search_And_Rescue():
                         claw.max()
                         sleep(1)
                         AU.arm_down()
+                        claw.min()
                         sleep(1)
-                        AU.light_up()
-                        sleep(.2)
+                        AU.arm_up()
+                        sleep(1)
                         break
 
                     fwd_effort = e_width/target_width                   
