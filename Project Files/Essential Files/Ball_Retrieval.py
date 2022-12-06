@@ -8,8 +8,7 @@ import L2_inverse_kinematics as ik
 import L2_kinematics as kin
 import netifaces as ni
 import basic as ba
-
-import Arm_updown as AU
+import Arm_Rotation as AR
 
 from time import sleep
 from math import radians, pi
@@ -20,12 +19,6 @@ claw = Servo(24)
 
 def claw_close():
     claw.min()
-    sleep(1)
-    AU.arm_up()
-    claw.max()
-    sleep(1)
-    AU.arm_down()
-    sleep(1)
 
                       
 # Gets IP to grab MJPG stream
@@ -126,13 +119,10 @@ def Search_And_Rescue():
                         sc.driveOpenLoop(np.array([0.,0.]))  
                         claw.min()
                         sleep(1)
-                        AU.arm_up()
+                        AR.arm_up()
                         claw.max()
                         sleep(1)
-                        AU.arm_down()
-                        claw.min()
-                        sleep(1)
-                        AU.arm_up()
+                        AR.arm_down()
                         sleep(1)
                         break
 

@@ -5,10 +5,7 @@ import time
 import L1_log
 import L1_lidar
 import L2_vector
-
-import Arm_updown as AU
-
-import Grab_my_balls as Balls
+import Ball_Retrieval as BR
 
 import L2_speed_control as sc
 import L2_inverse_kinematics as ik
@@ -20,18 +17,18 @@ from math import radians, pi
 
 print("Ready")
 
-Balls.claw_close
-#AU.up()
+BR.claw_close
 
-Balls.getIp()
+
+BR.getIp()
 
 xdot = 10
 
 while True:
     
     
-   # Balls.BF()
-    Balls.Search_And_Rescue()
+
+    BR.Search_And_Rescue()
     
     distanceValues = L2_vector.getNearest()
     distanceMeters = distanceValues[0]
