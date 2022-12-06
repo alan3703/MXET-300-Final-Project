@@ -7,6 +7,7 @@ import L2_speed_control as sc
 import L2_inverse_kinematics as ik
 import L2_kinematics as kin
 import netifaces as ni
+import basic as ba
 
 import Arm_updown as AU
 
@@ -57,7 +58,7 @@ v1_max = 255     # Maximum H value
 v2_max = 255    # Maximum S value
 v3_max = 255    # Maximum V value
 
-target_width = 31.5      # Target pixel width of tracked object
+target_width = 27      # Target pixel width of tracked object
 angle_margin = 0.2      # Radians object can be from image center to be considered "centered"
 width_margin = 10       # Minimum width error to drive forward/back
 
@@ -115,6 +116,8 @@ def Search_And_Rescue():
                     if abs(e_width) < width_margin:
                         sc.driveOpenLoop(np.array([0.,0.]))             # Stop when centered and aligned
                         print("Aligned! ",w)
+                        ba.straight()
+                        sc.driveOpenLoop(np.array([0.,0.]))  
                         claw.min()
                         sleep(1)
                         AU.arm_up()
@@ -122,6 +125,8 @@ def Search_And_Rescue():
                         sleep(1)
                         AU.arm_down()
                         sleep(1)
+                        AU.light_up()
+                        sleep(.2)
                         break
 
                     fwd_effort = e_width/target_width                   

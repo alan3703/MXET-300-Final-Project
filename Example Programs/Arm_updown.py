@@ -37,6 +37,12 @@ def sendarm(mySpeed):          # takes at least 0.3 ms
 
 # THIS LOOP ONLY RUNS IF THE PROGRAM IS CALLED DIRECTLY
 
+def light_up():
+        sendarm(-0.5)
+        time.sleep(0.1)                       # run fwd for 4 seconds
+        sendarm(0)                      # stops for claw to do its job
+        time.sleep(1)
+        return 0
         
 def arm_up():
         my_Rate = 0.
@@ -52,10 +58,10 @@ def arm_down():
             sendarm(0.4)
             time.sleep(0.24)                       # run reverse for 4 seconds
             sendarm(0)
-            time.sleep(2)
+            time.sleep(1)
         
             #stops the motor
             sendarm(0)
-            time.sleep(2)
+            time.sleep(1)
             return 0
             

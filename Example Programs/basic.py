@@ -7,9 +7,6 @@ import netifaces as ni
 from time import sleep
 from math import radians, pi
 
-angle = 45
-xdot = 10
-
 
 def turning(angle):
     
@@ -19,15 +16,16 @@ def turning(angle):
     
     return 0
     
-def straight(xdot):
+def straight():
     
     wheel_measured = kin.getPdCurrent() 
-    wheel_speed = ik.getPdTargets(np.array([xdot, 0]))
-    sc.driveClosedLoop(wheel_speed, wheel_measured, 0) 
-
+    wheel_speed = ik.getPdTargets(np.array([1, 0]))
+    sc.driveClosedLoop(wheel_speed, wheel_measured, 0)
+    sleep(.5)
+    wheel_measured = kin.getPdCurrent() 
+    wheel_speed = ik.getPdTargets(np.array([0, 0]))
+    sc.driveClosedLoop(wheel_speed, wheel_measured, 0)
     return 0
-    
-while True:
-    
-    straight(xdot)
-    
+
+
+straight()

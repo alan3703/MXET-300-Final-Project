@@ -20,9 +20,9 @@ from math import radians, pi
 
 print("Ready")
 
-Balls.claw_close
-#AU.up()
-
+#Balls.claw_close
+AU.arm_up()
+AU.arm_down()
 Balls.getIp()
 
 xdot = 10
@@ -30,7 +30,6 @@ xdot = 10
 while True:
     
     
-   # Balls.BF()
     Balls.Search_And_Rescue()
     
     distanceValues = L2_vector.getNearest()
